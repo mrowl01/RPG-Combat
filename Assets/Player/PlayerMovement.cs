@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
+    [SerializeField] float stopRadius = 0.1f;
         
     private void Start()
     {
@@ -23,9 +24,31 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButton(0) )
         {
             print("Cursor raycast hit" + cameraRaycaster.hit.collider.gameObject.name.ToString());
-            currentClickTarget = cameraRaycaster.hit.point;  // So not set in default case
+          
+            switch (cameraRaycaster.layerHit)
+            {
+                case Layer.Walkable:
+                    currentClickTarget = cameraRaycaster.hit.point;  //where we click     
+                    break;
+                case Layer.Enemy:
+                    Debug.Log("Not moving there");
+                    break;
+                default:
+                    Debug.LogWarning("Should not be here");
+                    return;
+            }
         }
-        m_Character.Move(currentClickTarget - transform.position, false, false);
+        var playerToClickPoint = currentClickTarget- transform.position;
+        if (playerToClickPoint.magnitude >= stopRadius)
+        {
+            m_Character.Move(playerToClickPoint, false, false);
+        }
+        else
+        {
+            m_Character.Move(Vector3.zero, false, false);
+        }
+        
+
     }
 }
 

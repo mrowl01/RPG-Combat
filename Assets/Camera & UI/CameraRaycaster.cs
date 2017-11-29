@@ -24,6 +24,7 @@ public class CameraRaycaster : MonoBehaviour
     private void Start() // TODO Awake?
     {
         viewCamera = Camera.main;
+        
     }
 
     private void Update()

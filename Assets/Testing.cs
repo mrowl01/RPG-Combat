@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour {
+public class Testing : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		print ("Test "); 
+		
 	}
 	
 	// Update is called once per frame
