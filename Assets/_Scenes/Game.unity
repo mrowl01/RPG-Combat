@@ -295,6 +295,31 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: -0.11041513
       objectReference: {fileID: 0}
+    - target: {fileID: 114177639977531724, guid: 7bc70d559f1e0db4fad6133ff8dc0afa,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114425532306900022, guid: 7bc70d559f1e0db4fad6133ff8dc0afa,
+        type: 2}
+      propertyPath: m_RunCycleLegOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114425532306900022, guid: 7bc70d559f1e0db4fad6133ff8dc0afa,
+        type: 2}
+      propertyPath: m_MoveSpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114425532306900022, guid: 7bc70d559f1e0db4fad6133ff8dc0afa,
+        type: 2}
+      propertyPath: m_AnimSpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114306638786295902, guid: 7bc70d559f1e0db4fad6133ff8dc0afa,
+        type: 2}
+      propertyPath: stopRadius
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7bc70d559f1e0db4fad6133ff8dc0afa, type: 2}
   m_IsPrefabParent: 0
