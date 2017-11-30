@@ -7,14 +7,14 @@ public class CursorAffordance : MonoBehaviour
 	[SerializeField] Texture2D walkingCursor= null;
 	[SerializeField] Texture2D enemyCursor= null;
 	[SerializeField] Texture2D unknownCursor= null;
+	[SerializeField] Vector2 clickSpot = new Vector2 (0, 0);
 
     CameraRaycaster camCaster;
-	Vector2 clickSpot;
+
 
 	// Use this for initialization
 	void Start () {
         camCaster = GetComponent<CameraRaycaster>();
-		clickSpot = new Vector2 (96f, 96f);
 	}
 	
 	// Update is called once per frame
