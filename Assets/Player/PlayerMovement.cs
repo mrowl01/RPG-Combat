@@ -6,11 +6,12 @@ using UnityStandardAssets.CrossPlatformInput;
 [RequireComponent(typeof (ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
-	[SerializeField] float stopRadius = 0.1f;
+	[SerializeField] float walkStopRadius = 0.1f;
+	[SerializeField] float attackStopRadius = 5f;
 
 	ThirdPersonCharacter character;   			// A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
-    Vector3 currentClickTarget;
+    Vector3 currentDestination, clickPoint;
 	private bool isInDirectMode= false;
 	private Vector3 movement;						 // vertical and horizontal movement relative to camera 
 	private Transform mainCamera;                  	// A reference to the main camera in the scenes transform    
@@ -19,18 +20,17 @@ public class PlayerMovement : MonoBehaviour
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         character = GetComponent<ThirdPersonCharacter>();
-        currentClickTarget = transform.position;
+        currentDestination = transform.position;
 		mainCamera = Camera.main.transform;
     }
-	// TODO Fix issue with wasd controls conflicting with point and click movement
-    // Fixed update is called in sync with physics
+
     private void FixedUpdate()
     {
        
 		if (CrossPlatformInputManager.GetButtonDown("Fire3"))
 			{
 			isInDirectMode = ! isInDirectMode;
-			currentClickTarget = transform.position;// RESET CLICK TARGET
+			currentDestination = transform.position;// RESET CLICK TARGET
 			}
 		if (isInDirectMode) 
 		{
@@ -68,26 +68,49 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (Input.GetMouseButton (0)) {
 			print ("Cursor raycast hit" + cameraRaycaster.hit.collider.gameObject.name.ToString ());
-			switch (cameraRaycaster.layerHit) {
+			clickPoint = cameraRaycaster.hit.point;
+			switch (cameraRaycaster.currentLayerHit) {
 			case Layer.Walkable:
-				currentClickTarget = cameraRaycaster.hit.point;
+				currentDestination = ShortDestination (clickPoint, walkStopRadius); // take a vector and shorten it by the stopRadius
 				//where we click     
 				break;
 			case Layer.Enemy:
-				Debug.Log ("Not moving there");
+				currentDestination = ShortDestination (clickPoint, attackStopRadius);
+				Debug.Log ("enemy");
 				break;
 			default:
 				Debug.LogWarning ("Should not be here");
 				return;
 			}
 		}
-		var playerToClickPoint = currentClickTarget - transform.position;
-		if (playerToClickPoint.magnitude >= stopRadius) {
+		WalkToDestination ();
+	
+	}
+
+	void WalkToDestination ()
+	{
+		var playerToClickPoint = currentDestination - transform.position;
+		if (playerToClickPoint.magnitude >= walkStopRadius) {
 			character.Move (playerToClickPoint, false, false);
 		}
 		else {
 			character.Move (Vector3.zero, false, false);
 		}
 	}
+
+	Vector3 ShortDestination (Vector3 destination , float shortening)
+	{
+		Vector3 reductionVector= (destination- transform.position).normalized * shortening;// 
+		return destination- reductionVector;
+	}
+	void OnDrawGizmos()
+	{
+		Gizmos.DrawLine (transform.position,currentDestination);
+		Gizmos.DrawSphere (currentDestination, 0.1f);
+		Gizmos.DrawSphere (clickPoint, 0.2f);
+	}
+
 }
+
+
 

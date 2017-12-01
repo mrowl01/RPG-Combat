@@ -9,22 +9,26 @@ public class CameraRaycaster : MonoBehaviour
 
     Camera viewCamera;
 
-    RaycastHit m_hit;
+    RaycastHit rayCastHit;
     public RaycastHit hit // return what was hit
     {
-        get { return m_hit; }
+        get { return rayCastHit; }
     }
 
-    Layer m_layerHit;
-    public Layer layerHit // return the layer that was hit
+    Layer layerHit;
+    public Layer currentLayerHit // return the layer that was hit
     {
-        get { return m_layerHit; }
+        get { return layerHit; }
     }
+
+	public delegate void OnLayerChange(Layer newLayer);
+	public event OnLayerChange onLayerChange;
+
+
 
     private void Start() // TODO Awake?
     {
         viewCamera = Camera.main;
-       
         
     }
 
@@ -38,14 +42,28 @@ public class CameraRaycaster : MonoBehaviour
 
             if (hit.HasValue)
             {
-                m_hit = hit.Value;
-                m_layerHit = layer;
-                return;
+                rayCastHit = hit.Value;
+
+				if (layerHit != layer) //if change in layer (direct variable changes before the dependant variable) layerHit= the "Setter"
+				{
+					layerHit = layer;
+					onLayerChange (layer);
+				}
+				return;
             }
         }
         // Otherwise return background hit and get out
-        m_hit.distance = distanceToBackground;
-        m_layerHit = Layer.RaycastEndStop;
+        rayCastHit.distance = distanceToBackground;
+
+
+		// layer did not change since it did not hit any
+		// also check if the previous layer isnt already set to RayCastEndStop 
+		//to prevent unncessary setting the layerhit each frame
+		if (layerHit != Layer.RaycastEndStop) {
+			layerHit = Layer.RaycastEndStop;
+			onLayerChange (Layer.RaycastEndStop);
+		}
+        //layerHit = Layer.RaycastEndStop;
     }
 
     RaycastHit ? RaycastForLayer(Layer layer) // did it hit anything?

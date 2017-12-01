@@ -15,12 +15,13 @@ public class CursorAffordance : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         camCaster = GetComponent<CameraRaycaster>();
+		camCaster.onLayerChange += OnLayerChange;//registering
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () 
+	void OnLayerChange (Layer newLayer) //only called when layer changes
 	{
-		switch (camCaster.layerHit)
+		switch (newLayer)
 		{
 		case Layer.Walkable:
 			Cursor.SetCursor (walkingCursor, clickSpot, CursorMode.Auto);
@@ -36,4 +37,6 @@ public class CursorAffordance : MonoBehaviour
 		}
 		
 	}
+
 }
+// TODO consider de-registering observer when leaving gamescenes
