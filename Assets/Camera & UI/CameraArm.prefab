@@ -143,6 +143,7 @@ MonoBehaviour:
   walkingCursor: {fileID: 2800000, guid: 0424afe7a82245d4c921006f5f9984f7, type: 3}
   enemyCursor: {fileID: 2800000, guid: 70330ca09f526e045853328d52e643b2, type: 3}
   unknownCursor: {fileID: 2800000, guid: ab763f2a0c4767a46bfb18825bc3aace, type: 3}
+  clickSpot: {x: 0, y: 0}
 --- !u!114 &114889776341739528
 MonoBehaviour:
   m_ObjectHideFlags: 1

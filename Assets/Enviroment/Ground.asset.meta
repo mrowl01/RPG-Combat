@@ -1,12 +1,10 @@
 fileFormatVersion: 2
-guid: 7bc70d559f1e0db4fad6133ff8dc0afa
-labels:
-- Terrain
-timeCreated: 1511994069
+guid: 7ae14b03496f1204eaff000a67072785
+timeCreated: 1512177984
 licenseType: Free
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 100100000
+  mainObjectFileID: 15600000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

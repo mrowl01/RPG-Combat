@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: 2237398935fda60409ddf321a9b0df91, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: 1
+    x: 0
     y: 0
     width: 0.4
     height: 1
@@ -280,7 +280,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523554205684792}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 47, z: 0}
+  m_LocalPosition: {x: 1.2550545, y: 47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224105136012598370}
@@ -288,8 +288,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19536968, y: 0}
   m_AnchorMax: {x: 0.80100006, y: 0}
-  m_AnchoredPosition: {x: 3, y: 47}
-  m_SizeDelta: {x: -73, y: 35}
+  m_AnchoredPosition: {x: 1.2550535, y: 47}
+  m_SizeDelta: {x: -69.50989, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224702312777618788
 RectTransform:
