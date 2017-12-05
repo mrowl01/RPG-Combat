@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RawImage))]
+[RequireComponent(typeof(Image))]
 public class PlayerHealthBar : MonoBehaviour
 {
 
-    RawImage healthBarRawImage;
+	Image healthBarRawImage;
     Player player;
 
     // Use this for initialization
     void Start()
     {
         player = FindObjectOfType<Player>();
-        healthBarRawImage = GetComponent<RawImage>();
+		healthBarRawImage = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float xValue = -(player.healthAsPercentage / 2f) - 0.5f;
-		print (xValue);
-        healthBarRawImage.uvRect = new Rect(xValue, 0f, 0.5f, 1f);
+		healthBarRawImage.fillAmount = player.healthAsPercentage;
 	
     }
 }

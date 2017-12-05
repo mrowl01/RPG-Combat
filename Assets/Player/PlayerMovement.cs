@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 		} else 
 		{
 			
-			ProcessMouseMovement ();
+			//ProcessMouseMovement ();
 		}
 			
     }
@@ -64,28 +64,28 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 
-	void ProcessMouseMovement ()
-	{
-		if (Input.GetMouseButton (0)) {
-			print ("Cursor raycast hit" + cameraRaycaster.hit.collider.gameObject.name.ToString ());
-			clickPoint = cameraRaycaster.hit.point;
-			switch (cameraRaycaster.currentLayerHit) {
-			case Layer.Walkable:
-				currentDestination = ShortDestination (clickPoint, walkStopRadius); // take a vector and shorten it by the stopRadius
-				//where we click     
-				break;
-			case Layer.Enemy:
-				currentDestination = ShortDestination (clickPoint, attackStopRadius);
-				Debug.Log ("enemy");
-				break;
-			default:
-				Debug.LogWarning ("Should not be here");
-				return;
-			}
-		}
-		WalkToDestination ();
-	
-	}
+//	void ProcessMouseMovement ()
+//	{
+//		if (Input.GetMouseButton (0))
+//		{
+//			clickPoint = cameraRaycaster.hit.point;
+//			switch (cameraRaycaster.currentLayerHit) {
+//			case Layer.Walkable:
+//				currentDestination = ShortDestination (clickPoint, walkStopRadius); // take a vector and shorten it by the stopRadius
+//				//where we click     
+//				break;
+//			case Layer.Enemy:
+//				currentDestination = ShortDestination (clickPoint, attackStopRadius);
+//				Debug.Log ("enemy");
+//				break;
+//			default:
+//				Debug.LogWarning ("Should not be here");
+//				return;
+//			}
+//		}
+//		WalkToDestination ();
+//	
+//	}
 
 	void WalkToDestination ()
 	{
