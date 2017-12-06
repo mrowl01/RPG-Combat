@@ -8,10 +8,8 @@ public class CursorAffordance : MonoBehaviour
 	[SerializeField] Texture2D enemyCursor= null;
 	[SerializeField] Texture2D unknownCursor= null;
 	[SerializeField] Vector2 clickSpot = new Vector2 (0, 0);
-	[SerializeField] const int walkableLayerNumber = 8;
-	[SerializeField] const int enemyLayerNumber = 9;
-
-
+	[SerializeField]  const int walkableLayerNumber = 8;
+	[SerializeField]  const int enemyLayerNumber = 9;
 
     CameraRaycaster camCaster;
 

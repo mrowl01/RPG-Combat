@@ -53,13 +53,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1693226722784654}
-  m_LocalRotation: {x: 0.29386327, y: -0.27202466, z: 0.08763966, w: 0.9121219}
-  m_LocalPosition: {x: 4.15, y: 6.04, z: -6.4}
+  m_LocalRotation: {x: 0.33913082, y: -0.09832971, z: -0.0011935285, w: 0.93558544}
+  m_LocalPosition: {x: 1.22, y: 9.14, z: -7.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4690438183902700}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 35.715, y: -33.213, z: 0}
+  m_LocalEulerAnglesHint: {x: 39.371002, y: -13.831, z: -5.1150002}
 --- !u!4 &4690438183902700
 Transform:
   m_ObjectHideFlags: 1
@@ -124,11 +124,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1693226722784654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10efd967ad256a44fb8df6f03a73f5ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e1d6f436888c4443954ee4e6d82a551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 0900000008000000
-  distanceToBackground: 100
+  layerPriorities: 0800000009000000
 --- !u!114 &114733848748774352
 MonoBehaviour:
   m_ObjectHideFlags: 1
