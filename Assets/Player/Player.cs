@@ -19,29 +19,17 @@ public class Player : MonoBehaviour, IDamageable
 	float lastTimeHit= 0f; 
 	GameObject currentTarget; 
 	CameraRaycaster cameraRaycaster;
-	[SerializeField] GameObject fireBall;
 
 	void Start()
 	{
 		currentHealthPoints = maxHealthPoints;
 		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
 		cameraRaycaster.notifyMouseClickObservers += OnEnemyClicked;
-		cameraRaycaster.notifyMouseClickObservers += OnWalkClick;
 	}
-	// todo fixFireball , currently it will not fire because the player clicks on walkablelayer 
-	//instanatly or is to close for script to allow ranged , and does meleee instead
 	public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
 	public void TakeDamage (float damage)
 	{
 		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
-	}
-	void OnParticleCollision(GameObject particle)// If hit with spell
-	{
-		Component damageable = gameObject.GetComponent (typeof(IDamageable));
-		if (damageable)
-		{
-			(damageable as IDamageable).TakeDamage (fireBallDamage);
-		}
 	}
 	void OnEnemyClicked(RaycastHit raycastHit, int layerHit)
 	{
@@ -51,16 +39,8 @@ public class Player : MonoBehaviour, IDamageable
 			//if enemy is out of range exit
 			if ((currentTarget.transform.position - transform.position ).magnitude > maxMeleeAttackRange) 
 			{
-				//if within ranged attack range , do ranged attack
-				if(( currentTarget.transform.position- transform.position).magnitude <= maxSpellAttackRange)
-				{
-					fireBall.gameObject.SetActive (true);
-					
-				}
 				return;
 			}
-			// If close enough for melee turn off  fireball
-			fireBall.gameObject.SetActive (false);
 			Enemy enemyComponent = currentTarget.GetComponent<Enemy> ();
 			if (enemyComponent) 
 			{
@@ -74,10 +54,5 @@ public class Player : MonoBehaviour, IDamageable
 		}
 
 	}
-	void OnWalkClick (RaycastHit raycastHit, int layerHit )
-	{
-		if (layerHit == walkableLayerNumber) {
-			fireBall.gameObject.SetActive (false);
-		}
-	}
+
 }

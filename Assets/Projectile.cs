@@ -31,5 +31,6 @@ public class Projectile : MonoBehaviour
 		{
 				(damageable as IDamageable).TakeDamage (projectileDamage);
 		}
+		Destroy (gameObject);
 	}
 }
