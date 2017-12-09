@@ -4,8 +4,32 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour 
 {
-	void OnParticleTrigger( )
+	[SerializeField] float projectileDamage = 3.5f;
+	[SerializeField] float projectileSpeed = 5f; 
+
+	public float GetSpeed()
 	{
-		print ("Collided");
+		return projectileSpeed;
+	}
+	public void setDamage (float damage)
+	{
+		projectileDamage = damage;
+	}
+	void DestroyThisObject()
+	{
+		Destroy (gameObject);
+	}
+	void Start()
+	{
+		Invoke ("DestroyThisObject", 3f);
+	}
+	void OnCollisionEnter(Collision collision )
+	{
+		Component damageable = collision.gameObject.GetComponent (typeof(IDamageable));
+
+		if (damageable && collision.gameObject.CompareTag("Player")) 
+		{
+				(damageable as IDamageable).TakeDamage (projectileDamage);
+		}
 	}
 }

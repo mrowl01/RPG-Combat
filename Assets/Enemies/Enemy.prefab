@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 195335349466093732}
   m_Layer: 9
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -722,6 +722,21 @@ GameObject:
   - component: {fileID: 4470158586126836}
   m_Layer: 9
   m_Name: EthanRightHandPinky3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1607261216202118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4788846308807150}
+  m_Layer: 0
+  m_Name: ProjectileSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2157,6 +2172,19 @@ Transform:
   m_Father: {fileID: 4470158586126836}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4788846308807150
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607261216202118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.029, y: 1.75, z: 0.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4971100360205250}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4796226567207376
 Transform:
   m_ObjectHideFlags: 1
@@ -2451,6 +2479,7 @@ Transform:
   - {fileID: 4089481070351418}
   - {fileID: 4742581227413840}
   - {fileID: 4847483391540754}
+  - {fileID: 4788846308807150}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.7380002, y: -195.50299, z: 1.7780001}
@@ -2497,7 +2526,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2574,7 +2603,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
   currentHealthPoints: 100
-  attackRadius: 4
+  attackRadius: 4.48
+  stopChasingRadius: 10
+  chaseRadius: 6
+  projectileDamage: 8
+  projectileSocket: {fileID: 1607261216202118}
+  projectile: {fileID: 1761558877141996, guid: d4bb1bea4add4f149a57b2919aae951f, type: 2}
+  fireBallDamage: 20
 --- !u!114 &114996748701779578
 MonoBehaviour:
   m_ObjectHideFlags: 1

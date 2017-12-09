@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
-public class Enemy : MonoBehaviour 
+public class Enemy : MonoBehaviour , IDamageable
 {
 	[SerializeField] float maxHealthPoints= 100f;
 	[SerializeField] float currentHealthPoints= 100f;
 	[SerializeField] float attackRadius= 4f;
+	[SerializeField] float stopChasingRadius = 10f;
+	[SerializeField] float chaseRadius = 6f; 
+	[SerializeField] float projectileDamage = 8f; 
+	[SerializeField] GameObject projectileSocket;
+	[SerializeField] GameObject projectile;
+	[SerializeField] float shootRate= 0.5f;
+	[SerializeField] float fireBallDamage = 20f; 
+	[SerializeField] Vector3 aimOffset = new Vector3 (0, 1, 0);
+
+	GameObject trash ;
+
+	bool isAttacking = false; 
 
 	AICharacterControl aiCharacterControl= null;
 	Vector3 myPos, playerPos;
@@ -20,6 +32,8 @@ public class Enemy : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		GameObject projectileParent = new GameObject ("ProjectileParent");
+		trash = projectileParent;
 		aiCharacterControl = GetComponent<AICharacterControl> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
 		
@@ -29,13 +43,58 @@ public class Enemy : MonoBehaviour
 	void Update ()
 	{
 		float distanceToPlayer = Vector3.Distance (player.transform.position, transform.position);
-		if (distanceToPlayer <= attackRadius)
+		if (distanceToPlayer <= attackRadius && ! isAttacking)
+		{
+			isAttacking = true;
+			InvokeRepeating ("SpawnProjectile", 0, shootRate);
+		} 
+		if (distanceToPlayer > attackRadius) {
+			isAttacking = false;
+			CancelInvoke ();
+		}
+		if (distanceToPlayer <= chaseRadius) 
 		{
 			aiCharacterControl.SetTarget (player.transform);
-		
-		} else
+		}
+		if (distanceToPlayer >= stopChasingRadius)
 		{
 			aiCharacterControl.SetTarget (transform);
 		}
+	}
+	void SpawnProjectile ()
+	{
+		GameObject newProjectile = Instantiate (projectile, projectileSocket.transform.position, Quaternion.identity);
+		newProjectile.transform.SetParent (trash.transform);
+		Projectile projectileComponent = newProjectile.GetComponent<Projectile> ();
+		projectileComponent.setDamage (projectileDamage); 
+
+		Vector3 unitVectorToPlayer = (player.transform.position + aimOffset - projectileSocket.transform.position).normalized;
+		float projectileSpeed = projectileComponent.GetSpeed();
+		newProjectile.GetComponent<Rigidbody> ().velocity = unitVectorToPlayer * projectileSpeed;
+	}
+	void OnParticleCollision(GameObject particle)// If hit with spell
+	{
+		Component damageable = gameObject.GetComponent (typeof(IDamageable));
+		if (damageable)
+		{
+			(damageable as IDamageable).TakeDamage (fireBallDamage);
+		}
+	}
+	public void TakeDamage(float damage)
+	{
+		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
+	}
+	void OnDrawGizmos()
+	{
+		//Run to radius
+		Gizmos.color= Color.blue; 
+		Gizmos.DrawWireSphere (transform.position, chaseRadius);
+		//Draw attack Sphere
+		Gizmos.color= Color.red;
+		Gizmos.DrawWireSphere (transform.position, attackRadius);
+		//Stop chasing radius
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireSphere (transform.position, stopChasingRadius);
+
 	}
 }
