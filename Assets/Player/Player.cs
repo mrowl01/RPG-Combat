@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamageable
 	[SerializeField] float  minTimeBetweenHits = 0.5f;
 	[SerializeField] float maxMeleeAttackRange = 2f;
 	[SerializeField] float maxSpellAttackRange = 5f; 
+	[SerializeField] GameObject spawnPoints; 
 
 
 	float lastTimeHit= 0f; 
@@ -25,6 +26,11 @@ public class Player : MonoBehaviour, IDamageable
 		currentHealthPoints = maxHealthPoints;
 		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
 		cameraRaycaster.notifyMouseClickObservers += OnEnemyClicked;
+
+	}
+	void Update()
+	{
+		OnCharacterDeath (1);
 	}
 	public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
 	public void TakeDamage (float damage)
@@ -52,6 +58,20 @@ public class Player : MonoBehaviour, IDamageable
 			}
 
 		}
+
+	}
+	void OnCharacterDeath (float health)
+	{
+		
+		if (currentHealthPoints <= 0) 
+		{
+			currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
+			int amountSpawnInArray = spawnPoints.transform.childCount;
+			int RNGSpawnPoint = Random.Range (0, amountSpawnInArray);
+			transform.position = spawnPoints.transform.GetChild (RNGSpawnPoint).transform.position;
+			print (RNGSpawnPoint);
+		}
+
 
 	}
 

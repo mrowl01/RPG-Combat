@@ -43,9 +43,11 @@ public class Enemy : MonoBehaviour , IDamageable
 	void Update ()
 	{
 		float distanceToPlayer = Vector3.Distance (player.transform.position, transform.position);
+		transform.LookAt (player.transform.position);
 		if (distanceToPlayer <= attackRadius && ! isAttacking)
 		{
 			isAttacking = true;
+
 			InvokeRepeating ("SpawnProjectile", 0, shootRate);
 		} 
 		if (distanceToPlayer > attackRadius) {
@@ -65,21 +67,14 @@ public class Enemy : MonoBehaviour , IDamageable
 	{
 		GameObject newProjectile = Instantiate (projectile, projectileSocket.transform.position, Quaternion.identity);
 		newProjectile.transform.SetParent (trash.transform);
-		Projectile projectileComponent = newProjectile.GetComponent<Projectile> ();
+		EnemyProjectile projectileComponent = newProjectile.GetComponent<EnemyProjectile> ();
 		projectileComponent.setDamage (projectileDamage); 
 
 		Vector3 unitVectorToPlayer = (player.transform.position + aimOffset - projectileSocket.transform.position).normalized;
 		float projectileSpeed = projectileComponent.GetSpeed();
 		newProjectile.GetComponent<Rigidbody> ().velocity = unitVectorToPlayer * projectileSpeed;
 	}
-	void OnParticleCollision(GameObject particle)// If hit with spell
-	{
-		Component damageable = gameObject.GetComponent (typeof(IDamageable));
-		if (damageable)
-		{
-			(damageable as IDamageable).TakeDamage (fireBallDamage);
-		}
-	}
+
 	public void TakeDamage(float damage)
 	{
 		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
