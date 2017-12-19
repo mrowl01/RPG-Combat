@@ -226,12 +226,12 @@ Prefab:
     - target: {fileID: 224835969871077626, guid: 17de9dc6f148a0f428d36aeb4bbebc00,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 162.5
+      value: 216
       objectReference: {fileID: 0}
     - target: {fileID: 224835969871077626, guid: 17de9dc6f148a0f428d36aeb4bbebc00,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 91.5
+      value: 121.5
       objectReference: {fileID: 0}
     - target: {fileID: 224835969871077626, guid: 17de9dc6f148a0f428d36aeb4bbebc00,
         type: 2}
@@ -721,7 +721,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 0.17809257, g: 0.2582911, b: 0.44852942, a: 0.878}
-  m_Intensity: 18.7
+  m_Intensity: 119.47
   m_Range: 1000
   m_SpotAngle: 125.7
   m_CookieSize: 10
