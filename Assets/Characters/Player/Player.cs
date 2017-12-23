@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -16,6 +17,12 @@ public class Player : MonoBehaviour, IDamageable
 	[SerializeField] float maxSpellAttackRange = 5f; 
 	[SerializeField] GameObject spawnPoints; 
 
+	[SerializeField] Weapon weaponInUse;
+	[SerializeField] GameObject weaponSocket;
+	bool hasWeapon = false; 
+
+
+
 
 	float lastTimeHit= 0f; 
 	GameObject currentTarget; 
@@ -24,14 +31,23 @@ public class Player : MonoBehaviour, IDamageable
 	void Start()
 	{
 		currentHealthPoints = maxHealthPoints;
-		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
-		cameraRaycaster.notifyMouseClickObservers += OnEnemyClicked;
+		RegisterMouseClick ();
+
+		//equip weapon debugging
+		EquipWeapon(); 
 
 	}
 	void Update()
 	{
 		OnCharacterDeath (1);
 	}
+
+	void RegisterMouseClick ()
+	{
+		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
+		cameraRaycaster.notifyMouseClickObservers += OnEnemyClicked;
+	}
+
 	public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
 	public void TakeDamage (float damage)
 	{
@@ -66,12 +82,36 @@ public class Player : MonoBehaviour, IDamageable
 		if (currentHealthPoints <= 0) 
 		{
 			currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
-			int amountSpawnInArray = spawnPoints.transform.childCount;
-			int RNGSpawnPoint = Random.Range (0, amountSpawnInArray);
-			transform.position = spawnPoints.transform.GetChild (RNGSpawnPoint).transform.position;
-			print (RNGSpawnPoint);
+			//int amountSpawnInArray = spawnPoints.transform.childCount;
+			//int RNGSpawnPoint = Random.Range (0, amountSpawnInArray);
+			//transform.position = spawnPoints.transform.GetChild (RNGSpawnPoint).transform.position;
+			//print (RNGSpawnPoint);
 		}
 
+
+	}
+
+	void EquipWeapon ()
+	{
+
+		if (weaponInUse != null) 
+		{
+			var weaponPrefab = weaponInUse.getWeaponPrefab ();
+			GameObject dominantHand = RequestDominantHand ();
+			var weapon = Instantiate (weaponPrefab, weaponSocket.transform);
+			weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
+			weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
+		}
+	}
+	GameObject RequestDominantHand ()
+	{
+		var dominantHands = GetComponentsInChildren<DominantHand> ();
+		int numberOfDominantHands = dominantHands.Length;
+		print (numberOfDominantHands);
+		Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand please add one"); 
+		Assert.IsFalse (numberOfDominantHands > 1, "You can only have one Dominant hand, please remove extras"); 
+		return dominantHands [0].gameObject;
+		print (numberOfDominantHands);
 
 	}
 

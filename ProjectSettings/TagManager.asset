@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Right Wrist
+  - Dominant Hand
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - Walkable
   - Enemy
-  - 
+  - Player
   - 
   - 
   - 

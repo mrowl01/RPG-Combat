@@ -6,6 +6,15 @@ public class EnemyProjectile : MonoBehaviour
 {
 	[SerializeField] float projectileDamage = 3.5f;
 	[SerializeField] float projectileSpeed = 5f; 
+	[SerializeField] GameObject shooter ; // able to inspect when paused
+
+	const float DESTROYDELAY = 3f; 
+
+
+	public void SetShooter(GameObject shooter)
+	{
+		this.shooter = shooter;
+	}
 
 	public float GetSpeed()
 	{
@@ -21,15 +30,22 @@ public class EnemyProjectile : MonoBehaviour
 	}
 	void Start()
 	{
-		//Invoke ("DestroyThisObject", 3f);
+		Invoke ("DestroyThisObject", DESTROYDELAY);
 	}
 	void OnCollisionEnter(Collision collision )
 	{
 		Component damageable = collision.gameObject.GetComponent (typeof(IDamageable));
-
-		if (damageable && collision.gameObject.CompareTag("Player")) 
+		if (collision.gameObject.layer != shooter.layer) 
 		{
-				(damageable as IDamageable).TakeDamage (projectileDamage);
+			DamageIfDamageable (collision, damageable);
+		}
+	}
+
+	void DamageIfDamageable (Collision collision, Component damageable)
+	{
+		if (damageable) 
+		{
+			(damageable as IDamageable).TakeDamage (projectileDamage);
 		}
 		DestroyThisObject ();
 	}

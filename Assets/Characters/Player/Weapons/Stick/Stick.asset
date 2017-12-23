@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b7a30723f2aeb4d84eba4817e6972f, type: 3}
+  m_Name: Stick
+  m_EditorClassIdentifier: 
+  weaponPrefab: {fileID: 1813808880376692, guid: c6e641c3468ada142bdabaa8b7cf8300,
+    type: 2}
+  weaponAnimation: {fileID: 0}
+  gripTransform: {fileID: 4646474808034178, guid: d28e29dc32abd5f4798dad5147fa1cdd,
+    type: 2}

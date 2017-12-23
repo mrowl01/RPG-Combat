@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour , IDamageable
 		{
 			isAttacking = true;
 
-			InvokeRepeating ("SpawnProjectile", 0, shootRate);
+			InvokeRepeating ("FireProjectile", 0, shootRate);
 		} 
 		if (distanceToPlayer > attackRadius) {
 			isAttacking = false;
@@ -63,16 +63,21 @@ public class Enemy : MonoBehaviour , IDamageable
 			aiCharacterControl.SetTarget (transform);
 		}
 	}
-	void SpawnProjectile ()
+	void FireProjectile ()
 	{
+
+		//TODO seperate character fire logic into seperate class
 		GameObject newProjectile = Instantiate (projectile, projectileSocket.transform.position, Quaternion.identity);
 		newProjectile.transform.SetParent (trash.transform);
 		EnemyProjectile projectileComponent = newProjectile.GetComponent<EnemyProjectile> ();
 		projectileComponent.setDamage (projectileDamage); 
 
+
 		Vector3 unitVectorToPlayer = (player.transform.position + aimOffset - projectileSocket.transform.position).normalized;
 		float projectileSpeed = projectileComponent.GetSpeed();
 		newProjectile.GetComponent<Rigidbody> ().velocity = unitVectorToPlayer * projectileSpeed;
+
+		projectileComponent.SetShooter (gameObject);
 	}
 
 	public void TakeDamage(float damage)
