@@ -3,10 +3,14 @@ using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.AI;
+using RPG.CameraUI; // TODO possibly rewire code
+
+namespace RPG.Characters {
 
 [RequireComponent(typeof (NavMeshAgent))]
 [RequireComponent(typeof (AICharacterControl))]
 [RequireComponent(typeof (ThirdPersonCharacter))]
+
 public class PlayerMovement : MonoBehaviour
 {
 
@@ -88,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
 //		character.Move (movement,false,false);
 //	}
 
+}
 }
 
 

@@ -1,6 +1,8 @@
-﻿using UnityEditor;
+﻿
 
+using UnityEditor;
 
+namespace RPG.CameraUI {
 // TODO consider changing to a property drawer
 [CustomEditor(typeof(CameraRaycaster))]
 public class CameraRaycasterEditor : Editor
@@ -43,4 +45,5 @@ public class CameraRaycasterEditor : Editor
             prop.intValue = EditorGUILayout.LayerField(string.Format("Layer {0}:", i), prop.intValue);
         }
     }
+}
 }

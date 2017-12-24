@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace RPG.Characters {
+
 [RequireComponent(typeof(Image))]
 public class PlayerHealthBar : MonoBehaviour
 {
@@ -23,4 +25,5 @@ public class PlayerHealthBar : MonoBehaviour
 		healthBarRawImage.fillAmount = player.healthAsPercentage;
 	
     }
+}
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Core;
 
+namespace RPG.Characters {
 public class EnemyProjectile : MonoBehaviour 
 {
 	[SerializeField] float projectileDamage = 3.5f;
@@ -49,4 +51,5 @@ public class EnemyProjectile : MonoBehaviour
 		}
 		DestroyThisObject ();
 	}
+}
 }

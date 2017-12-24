@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+namespace  RPG.CameraUI {
 public class CursorAffordance : MonoBehaviour
 {
 	[SerializeField] Texture2D walkingCursor= null;
@@ -40,3 +42,4 @@ public class CursorAffordance : MonoBehaviour
 
 }
 // TODO consider de-registering observer when leaving gamescenes
+}

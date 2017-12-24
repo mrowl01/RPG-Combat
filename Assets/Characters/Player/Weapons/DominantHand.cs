@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+namespace RPG.Characters {
 public class DominantHand : MonoBehaviour {
 
 	// Use this for initialization
@@ -13,4 +15,5 @@ public class DominantHand : MonoBehaviour {
 	void Update () {
 		
 	}
+}
 }

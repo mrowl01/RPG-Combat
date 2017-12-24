@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using RPG.CameraUI; // TODO re-wire code possibly
+using RPG.Core;
+using RPG.Weapons ;
 
+
+namespace RPG.Characters {
 public class Player : MonoBehaviour, IDamageable
 {
 	[SerializeField] float maxHealthPoints= 100f;
@@ -21,6 +26,7 @@ public class Player : MonoBehaviour, IDamageable
 	[SerializeField] GameObject weaponSocket;
 	bool hasWeapon = false; 
 
+	[SerializeField] AnimatorOverrideController animatorOverrideController ;
 
 
 
@@ -30,16 +36,26 @@ public class Player : MonoBehaviour, IDamageable
 
 	void Start()
 	{
-		currentHealthPoints = maxHealthPoints;
+		SetCurrentMaxHealth ();
 		RegisterMouseClick ();
-
-		//equip weapon debugging
 		EquipWeapon(); 
+		OverrideAnimatorController ();
 
 	}
 	void Update()
 	{
 		OnCharacterDeath (1);
+	}
+	void OverrideAnimatorController()
+	{
+		Animator animator = GetComponent<Animator> ();
+		animator.runtimeAnimatorController = animatorOverrideController;
+		animatorOverrideController ["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip ();
+	}
+
+	void SetCurrentMaxHealth ()
+	{
+		currentHealthPoints = maxHealthPoints;
 	}
 
 	void RegisterMouseClick ()
@@ -115,4 +131,5 @@ public class Player : MonoBehaviour, IDamageable
 
 	}
 
+}
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace RPG.CameraUI
+{
+
 public class FollowPlayer : MonoBehaviour 
 {
 	GameObject player;
@@ -15,6 +18,8 @@ public class FollowPlayer : MonoBehaviour
 	// Update is called once per frame`
 	void LateUpdate () {
 		transform.position = player.transform.position ; 
+		}
+
 	}
 
 }

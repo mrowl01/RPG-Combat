@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+namespace RPG.Weapons 
+{
+
 [CreateAssetMenu(menuName = ("RPG/Weapon"))]
 public class Weapon : ScriptableObject 
 {
 	[SerializeField] GameObject weaponPrefab;
-	[SerializeField] Animator weaponAnimation; 
+	[SerializeField] AnimationClip weaponAnimation; 
+
+	public AnimationClip GetAttackAnimClip()
+	{
+		return weaponAnimation; 
+	}
 
 	public Transform gripTransform; 
 
@@ -15,5 +23,7 @@ public class Weapon : ScriptableObject
 	{
 		return weaponPrefab; 
 	}
+	
 
+}
 }
