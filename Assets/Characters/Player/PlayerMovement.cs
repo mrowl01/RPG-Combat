@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
-using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.AI;
 using RPG.CameraUI; // TODO possibly rewire code
 
@@ -61,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
        
-		if (CrossPlatformInputManager.GetButtonDown("Fire3"))
+			if (Input.GetButtonDown("Fire3"))
 			{
 			isInDirectMode = ! isInDirectMode;
 			currentDestination = transform.position;// RESET CLICK TARGET
