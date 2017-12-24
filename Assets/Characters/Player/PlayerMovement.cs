@@ -15,8 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 currentDestination, clickPoint;
 
-	private bool isInDirectMode= false;
-
 	AICharacterControl aiMovement = null; 
 	ThirdPersonCharacter character = null ;   			// A reference to the ThirdPersonCharacter on the object
 	CameraRaycaster cameraRaycaster = null;
@@ -60,21 +58,21 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
        
-			if (Input.GetButtonDown("Fire3"))
-			{
-			isInDirectMode = ! isInDirectMode;
-			currentDestination = transform.position;// RESET CLICK TARGET
-			}
-		if (isInDirectMode) 
-		{
-			//ProcessMouseClick ();
-		
-		} else 
-		{
-			
-			//ProcessMouseMovement ();
-		}
-			
+//			if (Input.GetButtonDown("Fire3"))
+//			{
+//			isInDirectMode = ! isInDirectMode;
+//			currentDestination = transform.position;// RESET CLICK TARGET
+//			}
+//		if (isInDirectMode) 
+//		{
+//			//ProcessMouseClick ();
+//		
+//		} else 
+//		{
+//			
+//			//ProcessMouseMovement ();
+//		}
+//			
     }
 
 	//TODO make this get called again
