@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 			walkTarget = new GameObject ("walkTarget");
 		}
 
-		cameraRaycaster.notifyMouseClickObservers +=ProcessMouseClick ;
+			cameraRaycaster.notifyMouseClickObservers += ProcessMouseClick ;
     }
 
 	void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
