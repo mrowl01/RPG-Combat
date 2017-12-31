@@ -20,6 +20,8 @@ public class CameraRaycaster : MonoBehaviour
 	public delegate void OnClickPriorityLayer (RaycastHit raycastHit, int layerHit);// declate new delegate type
 	public event OnClickPriorityLayer notifyMouseClickObservers;// instantiate to notify what priority layer is
 
+	public delegate void OnRightClick (RaycastHit raycastHit, int layerHit);// declate new delegate type
+	public event OnRightClick notifyRightClickObservers;// instantiate to notify what priority layer is
 
 	void Update()
 	{
@@ -51,6 +53,10 @@ public class CameraRaycaster : MonoBehaviour
 		{
 			notifyMouseClickObservers (priorityHit.Value, layerHit);
 		}
+		if (Input.GetMouseButtonDown (1)) 
+			{
+				notifyRightClickObservers (priorityHit.Value, layerHit);
+			}
 	}
 
 	void NotifyObserversIfLayerChanged(int newLayer)

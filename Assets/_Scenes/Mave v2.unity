@@ -717,6 +717,21 @@ Prefab:
       propertyPath: energyImage
       value: 
       objectReference: {fileID: 1124582086}
+    - target: {fileID: 114994296939206906, guid: dafc4c95f675bd14cbd530bc8fe10955,
+        type: 2}
+      propertyPath: currentEnergy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114999986447477108, guid: dafc4c95f675bd14cbd530bc8fe10955,
+        type: 2}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114994296939206906, guid: dafc4c95f675bd14cbd530bc8fe10955,
+        type: 2}
+      propertyPath: maxEnergy
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dafc4c95f675bd14cbd530bc8fe10955, type: 2}
   m_IsPrefabParent: 0
@@ -1170,6 +1185,11 @@ Prefab:
     - target: {fileID: 224237262358646456, guid: 17de9dc6f148a0f428d36aeb4bbebc00,
         type: 2}
       propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114260613226771514, guid: 17de9dc6f148a0f428d36aeb4bbebc00,
+        type: 2}
+      propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
