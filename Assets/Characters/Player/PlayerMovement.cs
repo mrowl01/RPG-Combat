@@ -13,7 +13,7 @@ namespace RPG.Characters {
 public class PlayerMovement : MonoBehaviour
 {
 
-    Vector3 currentDestination, clickPoint;
+    Vector3 clickPoint;
 
 	AICharacterControl aiMovement = null; 
 	ThirdPersonCharacter character = null ;   			// A reference to the ThirdPersonCharacter on the object
@@ -21,39 +21,36 @@ public class PlayerMovement : MonoBehaviour
 
 	GameObject walkTarget = null; 
 
-	[SerializeField]  const int walkableLayerNumber = 8;
-	[SerializeField]  const int enemyLayerNumber = 9;
 
     private void Start()
     {
 		aiMovement = GetComponent<AICharacterControl> ();
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         character = GetComponent<ThirdPersonCharacter>();
-        currentDestination = transform.position;
 		if (walkTarget == null) {
 			walkTarget = new GameObject ("walkTarget");
 		}
 
-			cameraRaycaster.notifyMouseClickObservers += ProcessMouseClick ;
+			cameraRaycaster.onMouseOverPotentiallyWalkable += OnMouseOverPotentiallyWalk;
+			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
     }
-
-	void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
-	{
-		switch (layerHit)
+		void OnMouseOverEnemy (Enemy enemy)
 		{
-		case walkableLayerNumber:
-			walkTarget.transform.position = raycastHit.point;
-			aiMovement.SetTarget (walkTarget.transform);
-			break;
-		case enemyLayerNumber:
-			aiMovement.SetTarget (raycastHit.collider.gameObject.transform);
-			break;
-		default:
-			Debug.LogError ("Don't know how to handle ProcessMouseClick() default"); 
-			break;
+			if (Input.GetMouseButton (0)|| Input.GetMouseButtonDown (1)) 
+			{
+				aiMovement.SetTarget (enemy.transform);
+			}
 		}
 
-	}
+		void OnMouseOverPotentiallyWalk (Vector3 destination )
+		{
+			if (Input.GetMouseButton (0)  ) 
+			{
+				walkTarget.transform.position = destination; 
+				aiMovement.SetTarget (walkTarget.transform); 
+			}
+		}
+
 
     private void FixedUpdate()
     {

@@ -18,7 +18,7 @@ public class EnergyBar : MonoBehaviour
 		void Start()
 		{
 			cameraRaycaster = Camera.main.GetComponent<CameraRaycaster> ();
-			cameraRaycaster.notifyRightClickObservers += ProcessRightClick;
+			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
 			FullHealth () ; 
 		}
 		void Update()
@@ -39,10 +39,13 @@ public class EnergyBar : MonoBehaviour
 		{
 			energyImage.fillAmount = EnergyAsPercent (); 
 		}
-		public void ProcessRightClick (RaycastHit raycastHit, int layerHit)
+		public void OnMouseOverEnemy (Enemy enemy)
 		{
-			float newEnergyPoints = currentEnergy - pointsPerHit;
-			currentEnergy = Mathf.Clamp (newEnergyPoints, 0, maxEnergy);
+			if (Input.GetMouseButtonDown (0))
+			{
+				float newEnergyPoints = currentEnergy - pointsPerHit;
+				currentEnergy = Mathf.Clamp (newEnergyPoints, 0, maxEnergy);
+			}
 		}
 			
 }

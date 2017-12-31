@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour , IDamageable
 	[SerializeField] GameObject projectileSocket;
 	[SerializeField] GameObject projectile;
 	[SerializeField] float shootRate= 0.5f;
-	[SerializeField] float fireBallDamage = 20f; 
 	[SerializeField] Vector3 aimOffset = new Vector3 (0, 1, 0);
 
 	GameObject trash ;

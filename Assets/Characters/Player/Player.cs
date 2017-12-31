@@ -12,25 +12,19 @@ namespace RPG.Characters
 public class Player : MonoBehaviour, IDamageable
 {
 	[SerializeField] float maxHealthPoints= 100f;
-	[SerializeField] float fireBallDamage = 5f; 
-	[SerializeField] float meleeDamage = 3f;
 	[SerializeField] float currentHealthPoints= 100f;
 
 	[SerializeField]  const int walkableLayerNumber = 8;
 	[SerializeField]  const int enemyLayerNumber = 9;
+
 	[SerializeField] float  minTimeBetweenHits = 0.5f;
-	[SerializeField] float maxMeleeAttackRange = 2f;
-	[SerializeField] float maxSpellAttackRange = 5f; 
-	[SerializeField] GameObject spawnPoints; 
 
 	[SerializeField] Weapon weaponInUse;
 	[SerializeField] GameObject weaponSocket;
-	bool hasWeapon = false; 
 
 	[SerializeField] AnimatorOverrideController animatorOverrideController ;
 
-
-
+	Animator animator;
 	float lastTimeHit= 0f; 
 	GameObject currentTarget; 
 	CameraRaycaster cameraRaycaster;
@@ -49,7 +43,7 @@ public class Player : MonoBehaviour, IDamageable
 	}
 	void OverrideAnimatorController()
 	{
-		Animator animator = GetComponent<Animator> ();
+		animator = GetComponent<Animator> ();
 		animator.runtimeAnimatorController = animatorOverrideController;
 		animatorOverrideController ["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip ();
 	}
@@ -62,7 +56,7 @@ public class Player : MonoBehaviour, IDamageable
 	void RegisterMouseClick ()
 	{
 		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
-		cameraRaycaster.notifyMouseClickObservers += OnEnemyClicked;
+			cameraRaycaster.onMouseOverEnemy += OnEnemyClicked;
 	}
 
 	public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
@@ -70,47 +64,39 @@ public class Player : MonoBehaviour, IDamageable
 	{
 		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 	}
-	void OnEnemyClicked(RaycastHit raycastHit, int layerHit)
+		void OnEnemyClicked(Enemy enemy)
 	{
-		if (layerHit == enemyLayerNumber) 
+			if (Input.GetMouseButton (0) && IsTargetInRange(enemy.gameObject) ) 
+			{
+				AttackEnemy (enemy);
+			}
+	}
+	void AttackEnemy (Enemy enemy)
 		{
-			currentTarget = raycastHit.transform.gameObject;
-			//if enemy is out of range exit
-			if ((currentTarget.transform.position - transform.position ).magnitude > maxMeleeAttackRange) 
+			if (Time.time - lastTimeHit > minTimeBetweenHits) 
 			{
-				return;
+				animator.SetTrigger ("Attack");
+				enemy.TakeDamage (weaponInUse.GetWeaponDamage());
+				lastTimeHit = Time.time;
 			}
-			Enemy enemyComponent = currentTarget.GetComponent<Enemy> ();
-			if (enemyComponent) 
-			{
-				if (Time.time - lastTimeHit > minTimeBetweenHits) 
-				{
-					enemyComponent.TakeDamage (meleeDamage);
-					lastTimeHit = Time.time;
-				}
-			}
-
 		}
 
-	}
+	bool IsTargetInRange (GameObject target)
+		{
+			float distanceToTarget = (target.transform.position - transform.position).magnitude;
+			return distanceToTarget <= weaponInUse.MaxAttackRange (); 
+		}
+
 	void OnCharacterDeath (float health)
 	{
-		
 		if (currentHealthPoints <= 0) 
 		{
 			currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
-			//int amountSpawnInArray = spawnPoints.transform.childCount;
-			//int RNGSpawnPoint = Random.Range (0, amountSpawnInArray);
-			//transform.position = spawnPoints.transform.GetChild (RNGSpawnPoint).transform.position;
-			//print (RNGSpawnPoint);
 		}
-
-
 	}
 
 	void EquipWeapon ()
 	{
-
 		if (weaponInUse != null) 
 		{
 			var weaponPrefab = weaponInUse.getWeaponPrefab ();
@@ -124,13 +110,9 @@ public class Player : MonoBehaviour, IDamageable
 	{
 		var dominantHands = GetComponentsInChildren<DominantHand> ();
 		int numberOfDominantHands = dominantHands.Length;
-		print (numberOfDominantHands);
 		Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand please add one"); 
 		Assert.IsFalse (numberOfDominantHands > 1, "You can only have one Dominant hand, please remove extras"); 
 		return dominantHands [0].gameObject;
-		print (numberOfDominantHands);
-
 	}
-
 }
 }

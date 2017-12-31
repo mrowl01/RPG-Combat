@@ -16,7 +16,6 @@ public class CameraRotation : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetMouseButton (1)) {
-			print ("Pressing right button");
 			transform.LookAt (target);
 			transform.RotateAround (target.position, Vector3.up, Input.GetAxis ("Mouse X") * speed);
 		}
