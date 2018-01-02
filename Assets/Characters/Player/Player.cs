@@ -9,110 +9,134 @@ using RPG.Weapons ;
 
 namespace RPG.Characters 
 {
-public class Player : MonoBehaviour, IDamageable
-{
-	[SerializeField] float maxHealthPoints= 100f;
-	[SerializeField] float currentHealthPoints= 100f;
-
-	[SerializeField]  const int walkableLayerNumber = 8;
-	[SerializeField]  const int enemyLayerNumber = 9;
-
-	[SerializeField] float  minTimeBetweenHits = 0.5f;
-
-	[SerializeField] Weapon weaponInUse;
-	[SerializeField] GameObject weaponSocket;
-
-	[SerializeField] AnimatorOverrideController animatorOverrideController ;
-
-	Animator animator;
-	float lastTimeHit= 0f; 
-	GameObject currentTarget; 
-	CameraRaycaster cameraRaycaster;
-
-	void Start()
+	public class Player : MonoBehaviour, IDamageable
 	{
-		SetCurrentMaxHealth ();
-		RegisterMouseClick ();
-		EquipWeapon(); 
-		OverrideAnimatorController ();
+		[SerializeField] float maxHealthPoints= 100f;
+		[SerializeField] float currentHealthPoints= 100f;
 
-	}
-	void Update()
-	{
-		OnCharacterDeath (1);
-	}
-	void OverrideAnimatorController()
-	{
-		animator = GetComponent<Animator> ();
-		animator.runtimeAnimatorController = animatorOverrideController;
-		animatorOverrideController ["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip ();
-	}
+		[SerializeField]  const int walkableLayerNumber = 8;
+		[SerializeField]  const int enemyLayerNumber = 9;
 
-	void SetCurrentMaxHealth ()
-	{
-		currentHealthPoints = maxHealthPoints;
-	}
+		[SerializeField] float  minTimeBetweenHits = 0.5f;
 
-	void RegisterMouseClick ()
-	{
-		cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
-			cameraRaycaster.onMouseOverEnemy += OnEnemyClicked;
-	}
+		[SerializeField] Weapon weaponInUse;
+		[SerializeField] GameObject weaponSocket;
 
-	public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
-	public void TakeDamage (float damage)
-	{
-		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
-	}
-		void OnEnemyClicked(Enemy enemy)
-	{
-			if (Input.GetMouseButton (0) && IsTargetInRange(enemy.gameObject) ) 
+		[SerializeField] AnimatorOverrideController animatorOverrideController ;
+
+		// TODO Temporary serialized for dubbing 
+		[SerializeField] SpecialAbilityConfig ability1  ; 
+
+
+
+		Animator animator;
+		float lastTimeHit= 0f; 
+		GameObject currentTarget; 
+		CameraRaycaster cameraRaycaster;
+
+		void Start()
+		{
+			SetCurrentMaxHealth ();
+			RegisterMouseClick ();
+			EquipWeapon(); 
+			OverrideAnimatorController ();
+			ability1.AddComponent (gameObject);
+
+		}
+		void Update()
+		{
+			OnCharacterDeath (1);
+		}
+		void OverrideAnimatorController()
+		{
+			animator = GetComponent<Animator> ();
+			animator.runtimeAnimatorController = animatorOverrideController;
+			animatorOverrideController ["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip ();
+		}
+
+		void SetCurrentMaxHealth ()
+		{
+			currentHealthPoints = maxHealthPoints;
+		}
+
+		void RegisterMouseClick ()
+			{
+				cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster> ();
+					cameraRaycaster.onMouseOverEnemy += OnEnemyClicked;
+			}
+
+		public float healthAsPercentage	{get { return currentHealthPoints / maxHealthPoints;}}
+		public void TakeDamage (float damage)
+		{
+			currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
+		}
+
+			void OnEnemyClicked(Enemy enemy)
+				{
+			if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject))
 			{
 				AttackEnemy (enemy);
-			}
-	}
-	void AttackEnemy (Enemy enemy)
-		{
-			if (Time.time - lastTimeHit > minTimeBetweenHits) 
+			} 
+			else if (Input.GetMouseButtonDown (1))
 			{
-				animator.SetTrigger ("Attack");
-				enemy.TakeDamage (weaponInUse.GetWeaponDamage());
-				lastTimeHit = Time.time;
+				AttemptSpecialAbility1 (enemy);
+			}
+				}
+
+		void AttemptSpecialAbility1 ( Enemy enemy )
+		{
+			var energyComponent = GameObject.FindObjectOfType<EnergyBar> ();
+			if (energyComponent.IsEnergyAvailable(10f)) // TODO read from scriptable object
+			{
+				energyComponent.ConsumeEnergy (10f);
+				//TODO use the ability
 			}
 		}
 
-	bool IsTargetInRange (GameObject target)
+
+
+		void AttackEnemy (Enemy enemy)
+			{
+				if (Time.time - lastTimeHit > minTimeBetweenHits) 
+				{
+					animator.SetTrigger ("Attack");
+					enemy.TakeDamage (weaponInUse.GetWeaponDamage());
+					lastTimeHit = Time.time;
+				}
+			}
+
+		bool IsTargetInRange (GameObject target)
+			{
+				float distanceToTarget = (target.transform.position - transform.position).magnitude;
+				return distanceToTarget <= weaponInUse.MaxAttackRange (); 
+			}
+
+		void OnCharacterDeath (float health)
 		{
-			float distanceToTarget = (target.transform.position - transform.position).magnitude;
-			return distanceToTarget <= weaponInUse.MaxAttackRange (); 
+			if (currentHealthPoints <= 0) 
+			{
+				currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
+			}
 		}
 
-	void OnCharacterDeath (float health)
-	{
-		if (currentHealthPoints <= 0) 
+		void EquipWeapon ()
 		{
-			currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
+			if (weaponInUse != null) 
+			{
+				var weaponPrefab = weaponInUse.getWeaponPrefab ();
+				GameObject dominantHand = RequestDominantHand ();
+				var weapon = Instantiate (weaponPrefab, weaponSocket.transform);
+				weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
+				weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
+			}
+		}
+		GameObject RequestDominantHand ()
+		{
+			var dominantHands = GetComponentsInChildren<DominantHand> ();
+			int numberOfDominantHands = dominantHands.Length;
+			Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand please add one"); 
+			Assert.IsFalse (numberOfDominantHands > 1, "You can only have one Dominant hand, please remove extras"); 
+			return dominantHands [0].gameObject;
 		}
 	}
-
-	void EquipWeapon ()
-	{
-		if (weaponInUse != null) 
-		{
-			var weaponPrefab = weaponInUse.getWeaponPrefab ();
-			GameObject dominantHand = RequestDominantHand ();
-			var weapon = Instantiate (weaponPrefab, weaponSocket.transform);
-			weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
-			weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
-		}
-	}
-	GameObject RequestDominantHand ()
-	{
-		var dominantHands = GetComponentsInChildren<DominantHand> ();
-		int numberOfDominantHands = dominantHands.Length;
-		Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand please add one"); 
-		Assert.IsFalse (numberOfDominantHands > 1, "You can only have one Dominant hand, please remove extras"); 
-		return dominantHands [0].gameObject;
-	}
-}
 }
