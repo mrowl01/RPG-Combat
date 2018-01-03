@@ -26,8 +26,11 @@ namespace RPG.Characters
 			
 		}
 
-		public void Use ()
+		public void Use (AbilityUseParams useParams)
 		{
+			print ("SOmething on rightclick params"); 
+			float damageToDeal = useParams.baseDamage + config.GetExtraDamage ();
+			useParams.target.TakeDamage (damageToDeal); 
 		}
 	}
 }

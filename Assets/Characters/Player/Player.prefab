@@ -2912,11 +2912,13 @@ MonoBehaviour:
   maxHealthPoints: 1000
   currentHealthPoints: 1000
   minTimeBetweenHits: 0.5
+  baseDamage: 5
   weaponInUse: {fileID: 11400000, guid: c1346c105266e7d41897f70d65f770d8, type: 2}
   weaponSocket: {fileID: 1804473675563466}
   animatorOverrideController: {fileID: 22100000, guid: 98ad84229476c48b1ad92b63655bbfaf,
     type: 2}
-  ability1: {fileID: 11400000, guid: 1c8a2c849a1c17e4bb9692e3d9355e1d, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 1c8a2c849a1c17e4bb9692e3d9355e1d, type: 2}
 --- !u!114 &114601450353409058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2954,7 +2956,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1178685942808746}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.39

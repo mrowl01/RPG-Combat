@@ -18,6 +18,7 @@ namespace RPG.Characters
 		[SerializeField]  const int enemyLayerNumber = 9;
 
 		[SerializeField] float  minTimeBetweenHits = 0.5f;
+		[SerializeField] float baseDamage = 5f; 
 
 		[SerializeField] Weapon weaponInUse;
 		[SerializeField] GameObject weaponSocket;
@@ -25,7 +26,7 @@ namespace RPG.Characters
 		[SerializeField] AnimatorOverrideController animatorOverrideController ;
 
 		// TODO Temporary serialized for dubbing 
-		[SerializeField] SpecialAbilityConfig ability1  ; 
+		[SerializeField] SpecialAbilityConfig[] abilities  ; 
 
 
 
@@ -40,7 +41,7 @@ namespace RPG.Characters
 			RegisterMouseClick ();
 			EquipWeapon(); 
 			OverrideAnimatorController ();
-			ability1.AddComponent (gameObject);
+			abilities[0].AttachComponentTo (gameObject);
 
 		}
 		void Update()
@@ -79,16 +80,20 @@ namespace RPG.Characters
 			} 
 			else if (Input.GetMouseButtonDown (1))
 			{
-				AttemptSpecialAbility1 (enemy);
+				AttemptSpecialAbility (0,enemy);//TODO remove magic number
 			}
 				}
 
-		void AttemptSpecialAbility1 ( Enemy enemy )
+		void AttemptSpecialAbility (int abilityIndex, Enemy enemy )
 		{
-			var energyComponent = GameObject.FindObjectOfType<EnergyBar> ();
-			if (energyComponent.IsEnergyAvailable(10f)) // TODO read from scriptable object
+			EnergyBar energyComponent = GameObject.FindObjectOfType<EnergyBar> ();
+			float energyCost = abilities [abilityIndex].GetEnergyCost ();
+			if (energyComponent.IsEnergyAvailable(energyCost)) // TODO read from scriptable object
 			{
-				energyComponent.ConsumeEnergy (10f);
+				energyComponent.ConsumeEnergy (energyCost);
+				var abilityParams = new AbilityUseParams (enemy, baseDamage); 
+				abilities [abilityIndex].Use (abilityParams); 
+
 				//TODO use the ability
 			}
 		}
