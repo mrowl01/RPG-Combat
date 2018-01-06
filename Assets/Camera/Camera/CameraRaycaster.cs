@@ -9,18 +9,20 @@ namespace RPG.CameraUI
 {
 public class CameraRaycaster : MonoBehaviour 
 {
-	[SerializeField] Texture2D walkingCursor= null;
-	[SerializeField] Texture2D enemyCursor= null;
-	[SerializeField] Vector2 clickSpot = new Vector2 (0, 0);
+		[SerializeField] Texture2D walkingCursor= null;
+		[SerializeField] Texture2D enemyCursor= null;
+		[SerializeField] Vector2 clickSpot = new Vector2 (0, 0);
+		Rect rectAtStart = new Rect (Vector2.zero, new Vector2( Screen.width, Screen.height)); 
 
-	const int POTENTIALLY_WALKABLE_LAYER = 8; //
-	float maxRaycastDepth = 100f;// Hard coded value
-	
-	public delegate void OnMouseOverTerrain (Vector3 destination );
-	public event OnMouseOverTerrain onMouseOverPotentiallyWalkable; 
+		const int POTENTIALLY_WALKABLE_LAYER = 8; //
+		float maxRaycastDepth = 100f;// Hard coded value
+		
+		public delegate void OnMouseOverTerrain (Vector3 destination );
+		public event OnMouseOverTerrain onMouseOverPotentiallyWalkable; 
 
-	public delegate void OnMouseOverEnemy (Enemy enemy );
-	public event OnMouseOverEnemy onMouseOverEnemy; 
+		public delegate void OnMouseOverEnemy (Enemy enemy );
+		public event OnMouseOverEnemy onMouseOverEnemy; 
+
 
 		void Update()
 		{
@@ -38,9 +40,19 @@ public class CameraRaycaster : MonoBehaviour
 
 		void performRaycast ()
 		{
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			if (RaycastForEnemy (ray)) {return;}
-			if (RaycastForPotentiallyWalkable (ray)) {return;}
+			if (rectAtStart.Contains (Input.mousePosition)) {
+				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				if (RaycastForEnemy (ray)) {
+					return;
+				}
+				if (RaycastForPotentiallyWalkable (ray)) {
+					return;
+				}
+			} 
+			else 
+			{
+				Debug.LogWarning ("You are no longer in the game window"); 
+			}
 		}
 
 		bool RaycastForEnemy (Ray ray )
@@ -72,6 +84,6 @@ public class CameraRaycaster : MonoBehaviour
 				return true;
 			}
 			return false; 
-			}
+		}
 	}
 }

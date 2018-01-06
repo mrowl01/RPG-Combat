@@ -46,7 +46,6 @@ namespace RPG.Characters
 		}
 		void Update()
 		{
-			OnCharacterDeath (1);
 		}
 		void OverrideAnimatorController()
 		{
@@ -54,6 +53,8 @@ namespace RPG.Characters
 			animator.runtimeAnimatorController = animatorOverrideController;
 			animatorOverrideController ["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip ();
 		}
+
+
 
 		void SetCurrentMaxHealth ()
 		{
@@ -70,9 +71,13 @@ namespace RPG.Characters
 		public void TakeDamage (float damage)
 		{
 			currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
+			if (currentHealthPoints <= 0) 
+			{
+				StartCoroutine (KillPlayer());
+			}
 		}
 
-			void OnEnemyClicked(Enemy enemy)
+		void OnEnemyClicked(Enemy enemy)
 				{
 			if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject))
 			{
@@ -115,13 +120,16 @@ namespace RPG.Characters
 				float distanceToTarget = (target.transform.position - transform.position).magnitude;
 				return distanceToTarget <= weaponInUse.MaxAttackRange (); 
 			}
+			
 
-		void OnCharacterDeath (float health)
+		IEnumerator KillPlayer()
 		{
-			if (currentHealthPoints <= 0) 
-			{
-				currentHealthPoints = maxHealthPoints; // TODO change this to reloading scene
-			}
+
+			Debug.Log ("Player Death Sound");
+			Debug.Log ("Play Death Animation"); 
+			SceneBoss sceneBoss = GameObject.FindObjectOfType<SceneBoss> ();
+			sceneBoss.ReloadCurrentScene (); 
+			yield return new WaitForSecondsRealtime (2f); // TODO  use audioclip length
 		}
 
 		void EquipWeapon ()
