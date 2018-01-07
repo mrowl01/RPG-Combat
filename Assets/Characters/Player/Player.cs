@@ -27,25 +27,46 @@ namespace RPG.Characters
 
 		// TODO Temporary serialized for dubbing 
 		[SerializeField] SpecialAbilityConfig[] abilities  ; 
+		AudioSource audioSource ; 
+		[SerializeField] AudioClip[] playerClips; // 0 = Aughh, 1= Grr, 2= Hmph
+		[SerializeField] AudioClip[] deathClips;
+		[SerializeField] AnimationClip[] animationClips; 
 
 
 
 		Animator animator;
 		float lastTimeHit= 0f; 
+		bool playedHitSoundRecently = false; 
+		bool isPlayerDead;
+		bool hasDeathClipPlayed= false; 
 		GameObject currentTarget; 
 		CameraRaycaster cameraRaycaster;
 
+
 		void Start()
 		{
+			hasDeathClipPlayed = false; 
+			isPlayerDead = false;
 			SetCurrentMaxHealth ();
 			RegisterMouseClick ();
 			EquipWeapon(); 
 			OverrideAnimatorController ();
 			abilities[0].AttachComponentTo (gameObject);
+			audioSource = GetComponent<AudioSource> (); 
 
 		}
 		void Update()
 		{
+		}
+
+		bool GetIsPlayerDead()
+		{
+			return isPlayerDead; 
+		}
+		void PlayDeathSound ()
+		{
+				audioSource.clip = deathClips[deathClips.Length - 1];
+				audioSource.Play (); 
 		}
 		void OverrideAnimatorController()
 		{
@@ -71,11 +92,17 @@ namespace RPG.Characters
 		public void TakeDamage (float damage)
 		{
 			currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
-			if (currentHealthPoints <= 0) 
+
+			if (!playedHitSoundRecently) 
+			{
+				StartCoroutine (PlayHitSoundAfterSeconds (5f)); 
+			}
+			if (currentHealthPoints <= 0 && ! audioSource.isPlaying  && ! hasDeathClipPlayed ) 
 			{
 				StartCoroutine (KillPlayer());
 			}
 		}
+
 
 		void OnEnemyClicked(Enemy enemy)
 				{
@@ -121,15 +148,28 @@ namespace RPG.Characters
 				return distanceToTarget <= weaponInUse.MaxAttackRange (); 
 			}
 			
+		IEnumerator PlayHitSoundAfterSeconds( float seconds)
+		{
+			if (!audioSource.isPlaying && ! isPlayerDead)
+			{
+				playedHitSoundRecently = true;
+				audioSource.clip = playerClips [Random.Range (0, playerClips.Length)];
+				audioSource.Play (); 
+				yield return new WaitForSecondsRealtime (seconds); 
+				playedHitSoundRecently = false; 
+			}
+
+		}
 
 		IEnumerator KillPlayer()
 		{
-
-			Debug.Log ("Player Death Sound");
-			Debug.Log ("Play Death Animation"); 
+			hasDeathClipPlayed = true; 
+			isPlayerDead = true; 
+			PlayDeathSound (); 
+			animator.SetTrigger ("Death"); 
 			SceneBoss sceneBoss = GameObject.FindObjectOfType<SceneBoss> ();
+			yield return new WaitForSecondsRealtime (audioSource.clip.length); // TODO  use audioclip length
 			sceneBoss.ReloadCurrentScene (); 
-			yield return new WaitForSecondsRealtime (2f); // TODO  use audioclip length
 		}
 
 		void EquipWeapon ()

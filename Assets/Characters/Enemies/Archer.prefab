@@ -1908,7 +1908,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1297004344545722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -423.0034, y: 0, z: -110.925446}
+  m_LocalPosition: {x: -386.8, y: 0, z: -110.925446}
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children:
   - {fileID: 4345996100314012}
@@ -2634,11 +2634,10 @@ MonoBehaviour:
   attackRadius: 20
   stopChasingRadius: 6.2
   chaseRadius: 0.67
-  projectileDamage: 15
+  projectileDamage: 300
   projectileSocket: {fileID: 1904164632639690}
   projectile: {fileID: 1761558877141996, guid: d4bb1bea4add4f149a57b2919aae951f, type: 2}
   shootRate: 1.5
-  fireBallDamage: 20
   aimOffset: {x: 0, y: 1, z: 0}
 --- !u!114 &114424086466715034
 MonoBehaviour:
@@ -2659,7 +2658,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1450818024463242}
-  m_Material: {fileID: 13400000, guid: e52fb17f9b1e7fd48b8955f1391d3688, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
