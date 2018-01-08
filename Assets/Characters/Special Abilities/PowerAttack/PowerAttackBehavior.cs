@@ -25,12 +25,24 @@ namespace RPG.Characters
 		void Update () {
 			
 		}
-
+		void PlayParticleEffect ()
+		{
+			var prefab = Instantiate (config.GetParticleSystem (), transform.position, Quaternion.identity); 
+			ParticleSystem myParticleSystem = prefab.GetComponent<ParticleSystem> (); 
+			myParticleSystem.Play ();
+			Destroy (myParticleSystem, myParticleSystem.main.duration); 
+		}
 		public void Use (AbilityUseParams useParams)
 		{
-			print ("SOmething on rightclick params"); 
+			
+			DealDamage (useParams); 
+		}
+
+		void DealDamage (AbilityUseParams useParams)
+		{
+			print ("SOmething on rightclick params");
 			float damageToDeal = useParams.baseDamage + config.GetExtraDamage ();
-			useParams.target.TakeDamage (damageToDeal); 
+			useParams.target.TakeDamage (damageToDeal);
 		}
 	}
 }

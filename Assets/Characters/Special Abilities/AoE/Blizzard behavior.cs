@@ -27,22 +27,35 @@ namespace RPG.Characters
 			
 			
 		}
+		void PlayParticleEffect ()
+		{
+			var prefab = Instantiate (config.GetParticleSystem (), transform.position, Quaternion.identity); 
+			//TODO decide if particle effect should attatch to player 
+			ParticleSystem myParticleSystem = prefab.GetComponent<ParticleSystem>(); 
+			myParticleSystem.Play (); 
+			Destroy (prefab, myParticleSystem.main.duration); 
+		}
 
 		public void Use (AbilityUseParams useParams )
 		{
-			print ("Area effect used by" + gameObject.name ) ; 
-			//Static sphere for cast					//origin			radius				direction		max distance
-			RaycastHit[] hits = Physics.SphereCastAll (transform.position, config.GetRadius(), Vector3.up, config.GetRadius ()); 
+			PlayParticleEffect ();
+			AoEDamage (useParams); 
 
-			foreach (RaycastHit hit in hits ) 
-			{
-				var damageable = hit.collider.gameObject.GetComponent<IDamageable> () ;
-				if ( damageable != null )
-				{
-					float damageToDeal = useParams.baseDamage + config.GetDmgToTargets (); // TODO art hat
-					damageable.TakeDamage(damageToDeal);
+		}	
+
+		void AoEDamage (AbilityUseParams useParams)
+		{
+			print ("Area effect used by" + gameObject.name);
+			//Static sphere for cast					//origin			radius				direction		max distance
+			RaycastHit[] hits = Physics.SphereCastAll (transform.position, config.GetRadius (), Vector3.up, config.GetRadius ());
+			foreach (RaycastHit hit in hits) {
+				var damageable = hit.collider.gameObject.GetComponent<IDamageable> ();
+				if (damageable != null) {
+					float damageToDeal = useParams.baseDamage + config.GetDmgToTargets ();
+					// TODO art hat
+					damageable.TakeDamage (damageToDeal);
 				}
 			}
-		}	
+		}
 	}
 }

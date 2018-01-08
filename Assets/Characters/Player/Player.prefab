@@ -1445,7 +1445,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1178685942808746}
   m_LocalRotation: {x: -0, y: -0.9914272, z: -0, w: 0.13066055}
-  m_LocalPosition: {x: -371.1, y: 0.2, z: -108.82}
+  m_LocalPosition: {x: -359.4, y: 0.2, z: -112}
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children:
   - {fileID: 4689056956375782}
@@ -2990,7 +2990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4316dab815d3f4469c53b351b22834f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 1000
+  maxHealthPoints: 10000
   currentHealthPoints: 1000
   minTimeBetweenHits: 0.5
   baseDamage: 5
@@ -3000,10 +3000,12 @@ MonoBehaviour:
     type: 2}
   abilities:
   - {fileID: 11400000, guid: c22a3356b4a36fb4bb90698e5af5bbb5, type: 2}
+  - {fileID: 11400000, guid: 1c8a2c849a1c17e4bb9692e3d9355e1d, type: 2}
   playerClips:
   - {fileID: 8300000, guid: 876da71f8db5ed14399178977c21ca05, type: 3}
   - {fileID: 8300000, guid: 4d012e323182c9d4691b624e9a2113e0, type: 3}
   - {fileID: 8300000, guid: 132f7481251855f42ae44be51b0b7285, type: 3}
+  deathClips:
   - {fileID: 8300000, guid: 9094198c5f379cf45bb9a4fac76f0eea, type: 3}
   animationClips:
   - {fileID: 7400000, guid: 5e2c83d7c29bbd64cb4e8431239e7313, type: 3}

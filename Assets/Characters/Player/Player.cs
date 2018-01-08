@@ -76,7 +76,6 @@ namespace RPG.Characters
 		}
 
 
-
 		void SetCurrentMaxHealth ()
 		{
 			currentHealthPoints = maxHealthPoints;
@@ -106,14 +105,11 @@ namespace RPG.Characters
 
 		void OnEnemyClicked(Enemy enemy)
 				{
-			if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject))
-			{
+			if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject)) {
 				AttackEnemy (enemy);
+			} else if (Input.GetMouseButtonDown (1)) {
+				AttemptSpecialAbility (0, enemy);//TODO remove magic number
 			} 
-			else if (Input.GetMouseButtonDown (1))
-			{
-				AttemptSpecialAbility (0,enemy);//TODO remove magic number
-			}
 				}
 
 		void AttemptSpecialAbility (int abilityIndex, Enemy enemy )

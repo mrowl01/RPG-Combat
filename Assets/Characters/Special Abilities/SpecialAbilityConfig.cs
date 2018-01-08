@@ -20,8 +20,10 @@ namespace RPG.Characters
 	}
 	public abstract class SpecialAbilityConfig : ScriptableObject
 	{
-			[Header ("Special Ability Boss")]
-			[SerializeField] float energyCost = 10f; 
+		[Header ("Special Ability Boss")]
+		[SerializeField] float energyCost = 10f; 
+		[SerializeField] GameObject particleSystemPrefab; 
+			
 
 		protected ISpecialAbility behavior;
 
@@ -36,6 +38,10 @@ namespace RPG.Characters
 		public float GetEnergyCost ()
 		{
 			return energyCost; 
+		}
+		public GameObject GetParticleSystem()
+		{
+			return particleSystemPrefab;
 		}
 
 	}
