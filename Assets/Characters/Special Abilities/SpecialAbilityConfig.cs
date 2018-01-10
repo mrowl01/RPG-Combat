@@ -27,7 +27,7 @@ namespace RPG.Characters
 
 		protected ISpecialAbility behavior;
 
-			abstract public void AttachComponentTo (GameObject gameObjectToAttachTo ) ;
+		abstract public void AttachComponentTo (GameObject gameObjectToAttachTo ) ;
 
 
 		public void Use (AbilityUseParams useParams)

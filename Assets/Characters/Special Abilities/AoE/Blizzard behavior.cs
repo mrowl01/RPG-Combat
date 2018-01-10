@@ -48,9 +48,13 @@ namespace RPG.Characters
 			print ("Area effect used by" + gameObject.name);
 			//Static sphere for cast					//origin			radius				direction		max distance
 			RaycastHit[] hits = Physics.SphereCastAll (transform.position, config.GetRadius (), Vector3.up, config.GetRadius ());
-			foreach (RaycastHit hit in hits) {
+			foreach (RaycastHit hit in hits) 
+			{
 				var damageable = hit.collider.gameObject.GetComponent<IDamageable> ();
-				if (damageable != null) {
+				bool hitPlayer = hit.collider.gameObject.GetComponent<Player> ();
+				if (damageable != null && !hitPlayer)
+					
+				{
 					float damageToDeal = useParams.baseDamage + config.GetDmgToTargets ();
 					// TODO art hat
 					damageable.TakeDamage (damageToDeal);

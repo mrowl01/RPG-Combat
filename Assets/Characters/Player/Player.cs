@@ -39,7 +39,7 @@ namespace RPG.Characters
 		bool playedHitSoundRecently = false; 
 		bool isPlayerDead;
 		bool hasDeathClipPlayed= false; 
-		GameObject currentTarget; 
+		Enemy enemy; 
 		CameraRaycaster cameraRaycaster;
 
 
@@ -53,10 +53,34 @@ namespace RPG.Characters
 			OverrideAnimatorController ();
 			abilities[0].AttachComponentTo (gameObject);
 			audioSource = GetComponent<AudioSource> (); 
+			AttachInitialAbilities ();
 
 		}
 		void Update()
 		{
+			if (!isPlayerDead) 
+			{
+				ScanForAbilityKeyDown ();
+			}
+		}
+
+		void AttachInitialAbilities()
+		{
+			for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++) 
+			{
+				abilities [abilityIndex ].AttachComponentTo (gameObject);
+			}
+		}
+
+		void ScanForAbilityKeyDown ()
+		{
+			for (int keyIndex = 1; keyIndex < abilities.Length; keyIndex ++)
+			{
+				if (Input.GetKeyDown (keyIndex.ToString ())) 
+				{
+					AttemptSpecialAbility (keyIndex);
+				}
+			}
 		}
 
 		bool GetIsPlayerDead()
@@ -103,16 +127,20 @@ namespace RPG.Characters
 		}
 
 
-		void OnEnemyClicked(Enemy enemy)
+		void OnEnemyClicked(Enemy enemyToSet)
+			{
+				this.enemy = enemyToSet; 
+				if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject)) 
 				{
-			if (Input.GetMouseButton (0) && IsTargetInRange (enemy.gameObject)) {
-				AttackEnemy (enemy);
-			} else if (Input.GetMouseButtonDown (1)) {
-				AttemptSpecialAbility (0, enemy);//TODO remove magic number
-			} 
+					AttackEnemy ();
 				}
+				else if (Input.GetMouseButtonDown (1)) 
+				{
+					AttemptSpecialAbility (0);//TODO remove magic number
+				} 
+			}
 
-		void AttemptSpecialAbility (int abilityIndex, Enemy enemy )
+		void AttemptSpecialAbility (int abilityIndex)
 		{
 			EnergyBar energyComponent = GameObject.FindObjectOfType<EnergyBar> ();
 			float energyCost = abilities [abilityIndex].GetEnergyCost ();
@@ -128,12 +156,12 @@ namespace RPG.Characters
 
 
 
-		void AttackEnemy (Enemy enemy)
+		void AttackEnemy ()
 			{
 				if (Time.time - lastTimeHit > minTimeBetweenHits) 
 				{
 					animator.SetTrigger ("Attack");
-					enemy.TakeDamage (weaponInUse.GetWeaponDamage());
+				enemy.TakeDamage (weaponInUse.GetWeaponDamage());
 					lastTimeHit = Time.time;
 				}
 			}
