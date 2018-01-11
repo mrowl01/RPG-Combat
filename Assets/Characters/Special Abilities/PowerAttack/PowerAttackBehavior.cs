@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RPG.Characters
 {
 	
-	public class PowerAttackBehavior : MonoBehaviour, ISpecialAbility
+	public class PowerAttackBehavior : SpecialAbilityBehavior
 	{
 
 		PowerAttackConfig config ;
@@ -34,7 +34,7 @@ namespace RPG.Characters
 			myParticleSystem.Play ();
 			Destroy (myParticleSystem, myParticleSystem.main.duration); 
 		}
-		public void Use (AbilityUseParams useParams)
+		public override void Use (AbilityUseParams useParams)
 		{
 			audioSource.clip = config.GetAudioClip ();
 			audioSource.Play ();

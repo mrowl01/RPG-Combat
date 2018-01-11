@@ -6,7 +6,7 @@ using RPG.Core ;
 namespace RPG.Characters
 {
 	
-	public class Blizzardbehavior : MonoBehaviour, ISpecialAbility
+	public class Blizzardbehavior : SpecialAbilityBehavior
 	{
 		BlizzardConfig config; 
 		AudioSource audioSource; 
@@ -36,7 +36,7 @@ namespace RPG.Characters
 			Destroy (prefab, myParticleSystem.main.duration); 
 		}
 
-		public void Use (AbilityUseParams useParams )
+		public override void Use (AbilityUseParams useParams )
 		{
 			PlayParticleEffect ();
 			audioSource.clip = config.GetAudioClip ();

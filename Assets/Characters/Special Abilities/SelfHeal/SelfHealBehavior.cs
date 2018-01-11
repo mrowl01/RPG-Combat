@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPG.Characters 
 {
-	public class SelfHealBehavior : MonoBehaviour , ISpecialAbility
+	public class SelfHealBehavior : SpecialAbilityBehavior
 	{
 		SelfHealConfig config; 
 		Player player; 
@@ -29,7 +29,7 @@ namespace RPG.Characters
 			myParticleSystem.Play ();
 			Destroy (myParticleSystem, myParticleSystem.main .duration); 
 		}
-		public void Use(AbilityUseParams useParams)
+		public override void Use(AbilityUseParams useParams)
 		{
 			audioSource.clip = config.GetAudioClip ();
 			audioSource.Play ();
