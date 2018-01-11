@@ -31,6 +31,9 @@ namespace RPG.Characters
 		[SerializeField] AudioClip[] playerClips; // 0 = Aughh, 1= Grr, 2= Hmph
 		[SerializeField] AudioClip[] deathClips;
 		[SerializeField] AnimationClip[] animationClips; 
+		[Range (0.1f , 1f)] [SerializeField] float criticalHitChance 	= 0.1f;
+		[SerializeField] float criticalHitMultiplier = 1.25f;
+		[SerializeField] ParticleSystem criticalHitParticle =null ; 
 
 
 
@@ -62,6 +65,11 @@ namespace RPG.Characters
 			{
 				ScanForAbilityKeyDown ();
 			}
+		}
+
+		public void Heal(float amount)
+		{
+			currentHealthPoints = Mathf.Clamp (currentHealthPoints + amount, 0, maxHealthPoints);
 		}
 
 		void AttachInitialAbilities()
@@ -161,10 +169,24 @@ namespace RPG.Characters
 				if (Time.time - lastTimeHit > minTimeBetweenHits) 
 				{
 					animator.SetTrigger ("Attack");
-				enemy.TakeDamage (weaponInUse.GetWeaponDamage());
+					enemy.TakeDamage (CalculateDamage());
 					lastTimeHit = Time.time;
 				}
 			}
+		float CalculateDamage ()
+		{
+			bool isCriticalHit = Random.Range (0, 1f) <= criticalHitChance;
+			float damageBeforeCritical = baseDamage + weaponInUse.GetWeaponDamage ();
+
+			if (isCriticalHit)
+			{
+				criticalHitParticle.Play ();
+				return damageBeforeCritical * criticalHitMultiplier;
+			} else
+			{
+				return damageBeforeCritical; 
+			}
+		}
 
 		bool IsTargetInRange (GameObject target)
 			{

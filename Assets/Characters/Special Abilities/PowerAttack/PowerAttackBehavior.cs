@@ -9,6 +9,8 @@ namespace RPG.Characters
 	{
 
 		PowerAttackConfig config ;
+		AudioSource audioSource; 
+
 
 		public void SetCongif (PowerAttackConfig configToSet)
 		{
@@ -18,7 +20,7 @@ namespace RPG.Characters
 		// Use this for initialization
 		void Start () 
 		{
-			print ("Power attack behavior attached to  " + gameObject.name); 	
+			audioSource = GetComponent<AudioSource> ();  	
 		}
 		
 		// Update is called once per frame
@@ -34,7 +36,8 @@ namespace RPG.Characters
 		}
 		public void Use (AbilityUseParams useParams)
 		{
-			
+			audioSource.clip = config.GetAudioClip ();
+			audioSource.Play ();
 			DealDamage (useParams); 
 		}
 

@@ -8,10 +8,12 @@ namespace RPG.Characters
 	{
 		SelfHealConfig config; 
 		Player player; 
+		AudioSource audioSource; 
 
 		// Use this for initialization
 		void Start () 
 		{
+			audioSource = GetComponent<AudioSource> ();
 			player = GetComponent<Player> ();
 			
 		}
@@ -29,8 +31,11 @@ namespace RPG.Characters
 		}
 		public void Use(AbilityUseParams useParams)
 		{
+			audioSource.clip = config.GetAudioClip ();
+			audioSource.Play ();
+
 			print ("self heal used by:  " + gameObject.name);
-			player.TakeDamage (-config.GetExtraHealth ());// note - damage
+			player.Heal (config.GetExtraHealth ());// note - damage
 		}
 	}
 }

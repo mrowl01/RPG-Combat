@@ -9,6 +9,7 @@ namespace RPG.Characters
 	public class Blizzardbehavior : MonoBehaviour, ISpecialAbility
 	{
 		BlizzardConfig config; 
+		AudioSource audioSource; 
 
 		public void SetConfig  (BlizzardConfig config)
 		{
@@ -18,8 +19,7 @@ namespace RPG.Characters
 		// Use this for initialization
 		void Start () 
 		{
-			print ("Area affect has attached to " + gameObject.name); 
-		}
+			audioSource = GetComponent<AudioSource> ();		}
 		
 		// Update is called once per frame
 		void Update () 
@@ -39,6 +39,8 @@ namespace RPG.Characters
 		public void Use (AbilityUseParams useParams )
 		{
 			PlayParticleEffect ();
+			audioSource.clip = config.GetAudioClip ();
+			audioSource.Play ();
 			AoEDamage (useParams); 
 
 		}	

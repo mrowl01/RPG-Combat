@@ -12,7 +12,7 @@ public class Weapon : ScriptableObject
 	[SerializeField] GameObject weaponPrefab;
 	[SerializeField] AnimationClip weaponAnimation; 
 	[SerializeField] float maxAttackRange = 3f; 
-		[SerializeField] float weaponDamage = 50f; 
+	[SerializeField] float weaponDamage = 50f; 
 
 		public float GetWeaponDamage ()
 		{

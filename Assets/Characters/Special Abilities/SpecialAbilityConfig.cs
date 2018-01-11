@@ -23,6 +23,7 @@ namespace RPG.Characters
 		[Header ("Special Ability Boss")]
 		[SerializeField] float energyCost = 10f; 
 		[SerializeField] GameObject particleSystemPrefab; 
+		[SerializeField] AudioClip audioClip = null ; 
 			
 
 		protected ISpecialAbility behavior;
@@ -39,15 +40,17 @@ namespace RPG.Characters
 		{
 			return energyCost; 
 		}
+		public AudioClip GetAudioClip()
+		{
+			return audioClip; 
+		}
 		public GameObject GetParticleSystem()
 		{
 			return particleSystemPrefab;
 		}
 
 	}
-
-
-
+		
 	public interface ISpecialAbility
 	{
 		void Use(AbilityUseParams useParams); 
