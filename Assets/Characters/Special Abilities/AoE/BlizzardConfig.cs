@@ -5,18 +5,15 @@ using UnityEngine;
 namespace RPG.Characters
 {
 	[CreateAssetMenu (menuName = ("RPG/Special Ability/ Blizzard"))]
-	public class BlizzardConfig : SpecialAbilityConfig
+	public class BlizzardConfig : AbilityConfig
 	{
 		[Header ("Blizzard specific")]
 		[SerializeField] float radius = 5f; 
 		[SerializeField] float dmgToTargets = 15f; 
 
-		public override void AttachComponentTo (GameObject gameObjectToAttachTo)
+		public override AbilityBehavior GetBehaviorComponent (GameObject gameObjectToAttachTo )
 		{
-			var component = gameObjectToAttachTo.AddComponent<Blizzardbehavior> (); 
-			component.SetConfig (this); 
-			behavior = component; 
-			
+			return gameObjectToAttachTo.AddComponent<Blizzardbehavior>();
 		}
 		public float GetDmgToTargets ()
 		{

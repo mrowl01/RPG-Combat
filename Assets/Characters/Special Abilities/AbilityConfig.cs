@@ -18,18 +18,24 @@ namespace RPG.Characters
 		}
 
 	}
-	public abstract class SpecialAbilityConfig : ScriptableObject
+	public abstract class AbilityConfig : ScriptableObject
 	{
 		[Header ("Special Ability Boss")]
 		[SerializeField] float energyCost = 10f; 
 		[SerializeField] GameObject particleSystemPrefab; 
-		[SerializeField] AudioClip audioClip = null ; 
+		[SerializeField] AudioClip[] audioClips = null ; 
 			
 
-		protected SpecialAbilityBehavior behavior;
+		protected AbilityBehavior behavior;
 
-		abstract public void AttachComponentTo (GameObject gameObjectToAttachTo ) ;
+		public abstract AbilityBehavior GetBehaviorComponent (GameObject objectToAttachTo);
 
+		public void AttachAbilityTo (GameObject objectToAttachTo)
+		{
+			AbilityBehavior behaviorComponent = GetBehaviorComponent (objectToAttachTo);
+			behaviorComponent.SetConfig (this);
+			behavior = behaviorComponent; 
+		}
 
 		public void Use (AbilityUseParams useParams)
 			{
@@ -40,9 +46,9 @@ namespace RPG.Characters
 		{
 			return energyCost; 
 		}
-		public AudioClip GetAudioClip()
+		public AudioClip GetRandomAbilitySound()
 		{
-			return audioClip; 
+			return audioClips[Random.Range(0,audioClips.Length)]; 
 		}
 		public GameObject GetParticleSystem()
 		{

@@ -26,8 +26,9 @@ namespace RPG.Characters
 		[SerializeField] AnimatorOverrideController animatorOverrideController ;
 
 		// TODO Temporary serialized for dubbing 
-		[SerializeField] SpecialAbilityConfig[] abilities  ; 
+		[SerializeField] AbilityConfig[] abilities  ; 
 		AudioSource audioSource ; 
+
 		[SerializeField] AudioClip[] playerClips; // 0 = Aughh, 1= Grr, 2= Hmph
 		[SerializeField] AudioClip[] deathClips;
 		[SerializeField] AnimationClip[] animationClips; 
@@ -54,7 +55,7 @@ namespace RPG.Characters
 			RegisterMouseClick ();
 			EquipWeapon(); 
 			OverrideAnimatorController ();
-			abilities[0].AttachComponentTo (gameObject);
+			abilities[0].GetBehaviorComponent (gameObject);
 			audioSource = GetComponent<AudioSource> (); 
 			AttachInitialAbilities ();
 
@@ -76,7 +77,7 @@ namespace RPG.Characters
 		{
 			for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++) 
 			{
-				abilities [abilityIndex ].AttachComponentTo (gameObject);
+				abilities [abilityIndex ].AttachAbilityTo (gameObject);
 			}
 		}
 

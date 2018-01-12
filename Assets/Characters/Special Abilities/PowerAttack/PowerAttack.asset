@@ -9,7 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65104100298c8d6448ff4a0eb7fd5ce8, type: 3}
-  m_Name: PowerAttackLVL3
+  m_Name: PowerAttack
   m_EditorClassIdentifier: 
   energyCost: 10
+  particleSystemPrefab: {fileID: 0}
+  audioClips: []
   extraDamage: 10
